@@ -1,5 +1,8 @@
-/** @addtogroup adc_file ADC peripheral API
-@ingroup peripheral_apis
+/** @defgroup adc_file ADC
+
+@ingroup STM32L4xx
+
+@brief <b>libopencm3 STM32L4xx Analog to Digital Converters</b>
 
 @author @htmlonly &copy; @endhtmlonly 2016 Karl Palsson <karlp@tweak.net.au>
 
@@ -29,6 +32,80 @@ LGPL License Terms @ref lgpl_license
 
 /**@{*/
 
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Enable Deep-Power-Down Mdoe
+ *
+ * Deep-power-down mode allows additional power saving by internally switching
+ * off to reduce leakage currents.
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_enable_deeppwd(uint32_t adc)
+{
+	ADC_CR(adc) |= ADC_CR_DEEPPWD;
+}
+
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Disable Deep-Power-Down Mdoe
+ *
+ * Deep-power-down mode allows additional power saving by internally switching
+ * off to reduce leakage currents.
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_disable_deeppwd(uint32_t adc)
+{
+	ADC_CR(adc) &= ~ADC_CR_DEEPPWD;
+}
+
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Enable Regular Oversampling
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_enable_reg_ovrsmp(uint32_t adc)
+{
+	ADC_CFGR2(adc) |= ADC_CFGR2_ROVSE;
+}
+
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Disable Regular Oversampling
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_disable_reg_ovrsmp(uint32_t adc)
+{
+	ADC_CFGR2(adc) &= ~ADC_CFGR2_ROVSE;
+}
+
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Set Oversampling Ratio
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_set_ovrsmp_ratio(uint32_t adc, uint16_t ratio)
+{
+	ADC_CFGR2(adc) |= (ratio);
+}
+
+/*---------------------------------------------------------------------------*/
+/** @brief ADC Set Oversampling Shift
+ *
+ * @param[in] adc Unsigned int32. ADC block register address base @ref
+ * adc_reg_base
+ */
+void adc_set_ovrsmp_shift(uint32_t adc, uint16_t shift)
+{
+	ADC_CFGR2(adc) |= (shift << ADC_CFGR2_OVSS_SHIFT);
+}
+
+
+
 /**
  * Enable the ADC Voltage regulator
  * Before any use of the ADC, the ADC Voltage regulator must be enabled.
@@ -53,4 +130,3 @@ void adc_disable_regulator(uint32_t adc)
 }
 
 /**@}*/
-

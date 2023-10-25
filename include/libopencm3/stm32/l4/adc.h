@@ -36,6 +36,8 @@
 #include <libopencm3/stm32/common/adc_common_v2.h>
 #include <libopencm3/stm32/common/adc_common_v2_multi.h>
 
+/**@{*/
+
 /** @defgroup adc_reg_base ADC register base addresses
  * @ingroup adc_defines
  *
@@ -72,6 +74,50 @@
 #define ADC_CFGR1_EXTSEL_MASK		(0xf << ADC_CFGR1_EXTSEL_SHIFT)
 #define ADC_CFGR1_EXTSEL_VAL(x)		((x) << ADC_CFGR1_EXTSEL_SHIFT)
 
+/*------- ADC_CFGR2 values ---------*/
+
+/** ROVSE: Regular Oversampling Enable */
+#define ADC_CFGR2_ROVSE				(1 << 0)
+
+/** JOVSE: Injected Oversampling Enable */
+#define ADC_CFGR2_JOVSE				(1 << 1)
+
+/** OVSR[2:0]: Oversampling ratio */
+#define ADC_CFGR2_OVSR_SHIFT			2
+#define ADC_CFGR2_OVSR_MASK			(0x7 << ADC_CFGR2_OVSR_SHIFT)
+#define ADC_CFGR2_OVSR_VAL(x)			((x) << ADC_CFGR2_OVSR_SHIFT)
+
+#define ADC_CFGR2_OVSR_2x			ADC_CFGR2_OVSR_VAL(0)
+#define ADC_CFGR2_OVSR_4x			ADC_CFGR2_OVSR_VAL(1)
+#define ADC_CFGR2_OVSR_8x			ADC_CFGR2_OVSR_VAL(2)
+#define ADC_CFGR2_OVSR_16x			ADC_CFGR2_OVSR_VAL(3)
+#define ADC_CFGR2_OVSR_32x			ADC_CFGR2_OVSR_VAL(4)
+#define ADC_CFGR2_OVSR_64x			ADC_CFGR2_OVSR_VAL(5)
+#define ADC_CFGR2_OVSR_128x			ADC_CFGR2_OVSR_VAL(6)
+#define ADC_CFGR2_OVSR_256x			ADC_CFGR2_OVSR_VAL(7)
+
+/** OVSS[3:0]: Oversampling shift */
+#define ADC_CFGR2_OVSS_SHIFT			5
+#define ADC_CFGR2_OVSS_MASK			(0xf << ADC_CFGR2_OVSS_SHIFT)
+#define ADC_CFGR2_OVSS_VAL(x)			((x) << ADC_CFGR2_OVSS_SHIFT)
+
+/** TROVS: Triggered Regular Oversampling */
+#define ADC_CFGR2_TROVS				(1 << 9)
+
+/** ROVSM: Regular Oversampling mode */
+#define ADC_CFGR2_ROVSM				(1 << 10)
+
+/** GCOMP: Gain compensation mode */
+#define ADC_CFGR2_GCOMP				(1 << 16)
+
+/** SWTRIG: Software trigger bit for sampling time control trigger mode */
+#define ADC_CFGR2_SWTRIG			(1 << 25)
+
+/** BULB: Bulb sampling mode */
+#define ADC_CFGR2_BULB				(1 << 26)
+
+/** SMPTRIG: Sampling time control trigger mode */
+#define ADC_CFGR2_SMPTRIG			(1 << 27)
 
 /****************************************************************************/
 /* ADC_SMPRx ADC Sample Time Selection for Channels */
@@ -91,6 +137,13 @@
 
 
 BEGIN_DECLS
+
+void adc_enable_deeppwd(uint32_t adc);
+void adc_disable_deeppwd(uint32_t adc);
+void adc_enable_reg_ovrsmp(uint32_t adc);
+void adc_disable_reg_ovrsmp(uint32_t adc);
+void adc_set_ovrsmp_ratio(uint32_t adc, uint16_t ratio);
+void adc_set_ovrsmp_shift(uint32_t adc, uint16_t shift);
 
 
 END_DECLS

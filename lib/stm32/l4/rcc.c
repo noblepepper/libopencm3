@@ -633,4 +633,30 @@ uint32_t rcc_get_spi_clk_freq(uint32_t spi) {
 		return rcc_apb1_frequency;
 	}
 }
+
+/**
+ * @brief Set the peripheral clock source
+ * @param periph peripheral of choice, eg XXX_BASE
+ * @param sel periphral clock source
+ */
+void rcc_set_peripheral_clk_sel(uint32_t periph, uint32_t sel)
+{
+	uint8_t shift;
+	uint32_t mask;
+
+	switch (periph) {
+		case ADC1_BASE:
+			shift = RCC_CCIPR_ADCSEL_SHIFT;
+			mask = RCC_CCIPR_ADCSEL_MASK;
+			break;
+		default:
+			cm3_assert_not_reached();
+			return;
+	}
+
+	uint32_t reg32 = RCC_CCIPR & ~(mask << shift);
+	RCC_CCIPR = reg32 | (sel << shift);
+}
+
+
 /**@}*/
